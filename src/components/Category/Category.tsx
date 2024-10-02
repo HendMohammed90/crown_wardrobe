@@ -1,19 +1,19 @@
 import CategoryItem from '../CategoryItem/CategoryItem';
-import { Category } from '../../utils/types';
-import './directory.scss';
+import { category } from '../../utils/types';
+import './Category.scss';
 
 type DirectoryPropType = {
-    categories: Category[]
+    categories: category[]
 }
 
-const Directory = ({ categories }: DirectoryPropType) => {
+const Category = ({ categories }: DirectoryPropType) => {
     return (
         <div className='directory-container'>
-            {categories.map((category: Category) => (
+            {categories.map((category: category) => (
                 <CategoryItem key={category.id} category={category} />
             ))}
         </div>
     )
 }
 
-export default Directory
+export default Category
