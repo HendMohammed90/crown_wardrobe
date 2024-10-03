@@ -1,5 +1,5 @@
 import CategoryItem from '../CategoryItem/CategoryItem';
-import { category } from '../../utils/types';
+import { category } from '../../../../utils/types';
 import './Category.scss';
 
 type DirectoryPropType = {

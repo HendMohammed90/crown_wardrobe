@@ -3,5 +3,9 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
+  ],
+  "include": [
+    "src/**/*",    // This includes all files in the src directory
+    "src/client.d.ts" // This explicitly includes client-specific declaration files
   ]
 }
