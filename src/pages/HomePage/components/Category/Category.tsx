@@ -2,11 +2,11 @@ import CategoryItem from '../CategoryItem/CategoryItem';
 import { category } from '../../../../utils/types';
 import './Category.scss';
 
-type DirectoryPropType = {
+type CategoryPropType = {
     categories: category[]
 }
 
-const Category = ({ categories }: DirectoryPropType) => {
+const Category = ({ categories }: CategoryPropType) => {
     return (
         <div className='directory-container'>
             {categories.map((category: category) => (

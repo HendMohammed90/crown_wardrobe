@@ -1,5 +1,12 @@
+import { category } from "../../../../utils/types";
+
 import "./CategoryItem.scss"
-const CategoryItem = ({ category }) => {
+
+type CategoryItemPropType = {
+    category: category
+}
+
+const CategoryItem = ({ category }: CategoryItemPropType) => {
     const { imageUrl, title } = category;
     return (
         <div className='category-container'>
