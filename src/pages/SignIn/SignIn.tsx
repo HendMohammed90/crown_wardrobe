@@ -1,4 +1,4 @@
-import { signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup, createUserDocFromAuth } from "../../utils/firebase/firebase.utils";
 
 // type SignInProps = {
   // props go here
@@ -7,7 +7,9 @@ import { signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
 export function SignIn() {
   const logInWithGoogle = async () => {
     const response = await signInWithGooglePopup();
-    console.log(response);
+    const user = await createUserDocFromAuth(response);
+    console.log(`USER is ${JSON.stringify(user)}`)
+    return user;
   }
   return (
     <>
