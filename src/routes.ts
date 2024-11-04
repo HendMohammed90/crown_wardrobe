@@ -3,7 +3,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import BaseLayout from "./layouts/BaseLayout/BaseLayout";
 import router from "@mongez/react-router";
 import Shop from "./pages/Shop";
-import { SignIn } from "./pages/SignIn";
+import { Authentication } from "./pages/Authentication";
 
 
 
@@ -20,7 +20,7 @@ router.partOf(BaseLayout, [
             component: Shop,
         },
         {
-            path: "/sign-in",
-            component: SignIn,
+            path: "/auth",
+            component: Authentication,
         },
     ])

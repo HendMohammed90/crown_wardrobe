@@ -1,8 +1,9 @@
 import EmailInput from "../../shared/Components/EmailInput";
-import { signInWithGooglePopup, createUserDocFromAuth, createAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup, createUserDocFromAuth, signInWithEmailAndPasswordFun } from "../../utils/firebase/firebase.utils";
 import PasswordInput from "../../shared/Components/PasswordInput";
 import { Form, FormSubmitOptions } from "@mongez/react-form";
-import { SignUp } from "../SignUp";
+import "./signIn.scss"
+import Button from "../../shared/Components/Button";
 
 
 export function SignIn() {
@@ -21,15 +22,15 @@ export function SignIn() {
     };
 
     console.log(user);
-    const result = await createAuthUserWithEmailAndPassword(user.email, user.password);
+    const result = await signInWithEmailAndPasswordFun(user.email, user.password);
     console.log(`result is ${JSON.stringify(result)}`);
 
   };
 
-
   return (
-    <>
-      <h1>Sign In Page</h1>
+    <div className="container">
+      <h2>Already have an account</h2>
+      <span>Sign In with your email and password </span>
       <Form
         onSubmit={(options: FormSubmitOptions) => {
           const values = options.values as { email: string; password: string; };
@@ -53,10 +54,12 @@ export function SignIn() {
           className="group"
           inputClassName="form-input"
         />
-        <button onClick={logInWithGoogle}> signIn with google</button>
-        <button type="submit"> signIn with email & password</button>
+        <div className="buttons-container">
+        <Button type="submit" buttonType="inverted" className="button-container">Sign In</Button>
+        <Button type="submit" buttonType="google" className="button-container" onClick={logInWithGoogle}>Google Sign In</Button>
+        </div>
+
       </Form>
-      <SignUp />
-    </>
+      </div>
   );
 }

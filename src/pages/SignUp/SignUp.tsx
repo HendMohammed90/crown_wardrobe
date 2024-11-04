@@ -33,7 +33,7 @@ export function SignUp() {
 
   
   return (
-    <div className="sign-up-container">
+    <div className="container">
       <h2>Don't have an account</h2>
       <span>Sign Up with your email and password </span>
       <Form onSubmit={(options: FormSubmitOptions) => {
