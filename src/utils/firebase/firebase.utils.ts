@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth , signInWithPopup, GoogleAuthProvider, UserCredential } from "firebase/auth";
+import {getAuth , signInWithPopup, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword } from "firebase/auth";
 import {doc ,setDoc, getDoc, getFirestore} from "firebase/firestore"
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -31,8 +31,8 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider) ;
 // Initialize Firestore(database)
 export const db = getFirestore();
 
-// testFunction on the database
-export const createUserDocFromAuth = async(userAuth: UserCredential)=>{
+// create User Document From Auth on the database
+export const createUserDocFromAuth = async(userAuth: UserCredential , additionalInformation = {})=>{
   const userDocRef = doc(db , 'users' , userAuth.user.uid)
   // console.log(userDocRef);
 
@@ -45,11 +45,13 @@ export const createUserDocFromAuth = async(userAuth: UserCredential)=>{
     const email = userAuth.user.email; 
     const createdAt = new Date();
     try {
-      await setDoc(userDocRef , {
+      const setDocResult = await setDoc(userDocRef , {
         displayName: displayName || null,
         email: email || null,
-        createdAt: createdAt
+        createdAt: createdAt,
+        ...additionalInformation
       })
+      console.log(`setDocResult is ${JSON.stringify(setDocResult)}`)
     } catch (error) {
       console.log(`Error of creating a user on Database ${error}`)
     }
@@ -57,3 +59,10 @@ export const createUserDocFromAuth = async(userAuth: UserCredential)=>{
 
   return userSnapshot;
 } 
+
+// Function to create user from email and password
+export const createAuthUserWithEmailAndPassword = async (email: string , password : string) => {
+  if(!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth,email,password);
+}
