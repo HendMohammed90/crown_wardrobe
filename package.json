@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mongez/gnz": "^6.0.0",
+    "@mongez/react-form": "^3.0.14",
     "@mongez/react-router": "^2.5.1",
     "@mongez/router": "^1.0.0",
     "firebase": "^11.0.1",

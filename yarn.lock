@@ -874,7 +874,7 @@
   resolved "https://registry.yarnpkg.com/@mongez/events/-/events-1.0.9.tgz#8d9c3d3830c5973740b76869ac3a08d64a7fbdbc"
   integrity sha512-6vJaOeG6RE2Tzv9MsWVfBAqr5K/qESpymhlTPca5qs0bX4MGhHxAcBthhqByf6MJlAXwTGbBzoe9kmE6wGp3VA==
 
-"@mongez/events@^2.1.0":
+"@mongez/events@2.1.0", "@mongez/events@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@mongez/events/-/events-2.1.0.tgz#644fa0c0ae226f162ccca4a755a059892d545253"
   integrity sha512-gUTDm8fy0BRJmG/kkSmLi/Ir2PAFQQtk0FE9GGivnIK5YpGJD6MFrIj3Ui8SN3mMFKvCJae6zJjuYv6fLFQgBQ==
@@ -908,6 +908,22 @@
     "@mongez/reinforcements" "1.0.x"
     sprintf-js "^1.1.2"
 
+"@mongez/localization@^3.0.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@mongez/localization/-/localization-3.1.0.tgz#18b411138edfb8f788bfe6f39c727428b60e7320"
+  integrity sha512-8DH4GFz69UHKHB/yLuEuLJGP23bOaRRad6fBJD2wk3Klha80pPnhE1GO6V/FM9vDU5BGz/d97GBrksna+nKnZA==
+  dependencies:
+    "@mongez/events" "^2.1.0"
+    "@mongez/reinforcements" "^2.3.8"
+
+"@mongez/react-form@^3.0.14":
+  version "3.0.14"
+  resolved "https://registry.yarnpkg.com/@mongez/react-form/-/react-form-3.0.14.tgz#0bc0aa0588cbe666e90676990d65bb242a12e7d0"
+  integrity sha512-b0bz8IC8Vy425uzBLM/edJrDWtR0s5JmDHLvC2emAX9BaZZWZ+zUKbaFzcH1f1Uohu5Ir+QROwLekkS7kUI8ag==
+  dependencies:
+    "@mongez/events" "2.1.0"
+    "@mongez/localization" "^3.0.0"
+
 "@mongez/react-router@^2.5.1":
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/@mongez/react-router/-/react-router-2.5.1.tgz#7d827f4f3fd036ccc1a13c7d176bc05feae0fe55"
@@ -923,7 +939,7 @@
   dependencies:
     immutable "^4.1.0"
 
-"@mongez/reinforcements@^2.3.9", "@mongez/reinforcements@^2.x.x":
+"@mongez/reinforcements@^2.3.8", "@mongez/reinforcements@^2.3.9", "@mongez/reinforcements@^2.x.x":
   version "2.3.10"
   resolved "https://registry.yarnpkg.com/@mongez/reinforcements/-/reinforcements-2.3.10.tgz#cf47b3196cf5283ea7d4228652df6ee2e2cb2296"
   integrity sha512-jGTDXo2AO+E0Xuy1iTmJHlz2W/dbxWBTuy/J1MRjKs140JNG3mDqM1Msv1a6aLCg7toHqiRusdI13JuMNqWtOw==
