@@ -11,6 +11,7 @@ import "./button.styles.scss"
     buttonType: keyof typeof BUTTON_TYPE_CLASSES; 
     type: "submit" | "reset" | "button" ;
     className?: string;
+    onClick?: React.MouseEventHandler
 }
 
 export default function Button ({children, buttonType, type, className}: ButtonPropsType) {
