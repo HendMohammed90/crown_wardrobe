@@ -47,7 +47,7 @@ export default function EmailInput(props: EmailInputPropsType) {
         className={props.inputClassName}
       />
       {props.labelText && <label className={`${
-            props.value?.length > 0 ? 'shrink' : ''
+            props.value?.length ? 'shrink' : ''
           } form-input-label`} htmlFor={id}>{props.labelText}</label>}
       {error && <span style={{ marginTop: '-0.5rem', fontSize: '13px', color: 'rgb(239, 68, 68)' }}>{getErrorMessage()}</span>}
     </div>

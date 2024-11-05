@@ -57,24 +57,26 @@ export function SignUp() {
         inputClassName="form-input"
       />
       <PasswordInput
-        type="text"
-        name="password"
-        minLength={8}
-        required
-        labelText="Password"
-        className="group"
-        inputClassName="form-input"
-      />
-      <PasswordInput
-        type="text"
-        name="confirmPassword"
-        match="password"
-        minLength={8}
-        required
-        labelText="confirm Password"
-        className="group"
-        inputClassName="form-input"
-      />  
+          id="password"
+          type="text"
+          name="password"
+          minLength={8}
+          required
+          labelText="Password"
+          className="group"
+          inputClassName="form-input"
+        />
+        <PasswordInput
+          id="password"
+          type="text"
+          name="confirmPassword"
+          match="password"
+          minLength={8}
+          required
+          labelText="confirm Password"
+          className="group"
+          inputClassName="form-input"
+        />
       <Button type="submit" buttonType="inverted" className="button-container">Sign Up</Button>
       </Form>  
       </div>

@@ -4,9 +4,11 @@ import PasswordInput from "../../shared/Components/PasswordInput";
 import { Form, FormSubmitOptions } from "@mongez/react-form";
 import "./signIn.scss"
 import Button from "../../shared/Components/Button";
+import { FirebaseError } from "firebase/app";
 
 
 export function SignIn() {
+
   const logInWithGoogle = async () => {
     const response = await signInWithGooglePopup();
     const user = await createUserDocFromAuth(response);
@@ -16,16 +18,34 @@ export function SignIn() {
   }
 
   const submitForm = async ({ values }: { values: { email: string; password: string; } }) => {
-    const user = {
-      email: values.email,
-      password: values.password,
-    };
+    try {
+      const user = {
+        email: values.email,
+        password: values.password,
+      };
+  
+      // console.log(user);
+      const result = await signInWithEmailAndPasswordFun(user.email, user.password);
+      // console.log(`result is ${JSON.stringify(result)}`);
+      return result;
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/wrong-password':
+            alert('incorrect password for email');
+            break;
+        case 'auth/user-not-found':
+          alert('no user associated with this email');
+          break;
+        default:
+          console.log(error);
+      }
+    }
+  }
+}
+  
 
-    console.log(user);
-    const result = await signInWithEmailAndPasswordFun(user.email, user.password);
-    console.log(`result is ${JSON.stringify(result)}`);
 
-  };
 
   return (
     <div className="container">
@@ -38,6 +58,7 @@ export function SignIn() {
         }}
       >
         <EmailInput
+          id="email"
           name="email"
           type="email"
           required
@@ -46,6 +67,7 @@ export function SignIn() {
           inputClassName="form-input"
         />
         <PasswordInput
+          id="password"
           type="text"
           name="password"
           minLength={8}
@@ -56,10 +78,10 @@ export function SignIn() {
         />
         <div className="buttons-container">
         <Button type="submit" buttonType="inverted" className="button-container">Sign In</Button>
-        <Button type="submit" buttonType="google" className="button-container" onClick={logInWithGoogle}>Google Sign In</Button>
+        <Button type="button" buttonType="google" className="button-container" onClick={logInWithGoogle}>Google Sign In</Button>
         </div>
 
       </Form>
       </div>
   );
-}
+};

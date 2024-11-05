@@ -31,6 +31,11 @@ $main-color: black;
     &:focus ~ .form-input-label {
       @include shrinkLabel();
     }
+    
+    &:not(:placeholder-shown):not(#password) ~ .form-input-label {
+      @include shrinkLabel();
+    }
+
   }
 
   input[type='password'] {
