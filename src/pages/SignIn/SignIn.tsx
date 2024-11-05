@@ -5,6 +5,8 @@ import { Form, FormSubmitOptions } from "@mongez/react-form";
 import "./signIn.scss"
 import Button from "../../shared/Components/Button";
 import { FirebaseError } from "firebase/app";
+import { useContext } from "react";
+import { UserContext } from "../../shared/contexts/user.context";
 
 
 export function SignIn() {
@@ -17,7 +19,10 @@ export function SignIn() {
 
   }
 
+  const {setCurrentUser} = useContext(UserContext);
+  
   const submitForm = async ({ values }: { values: { email: string; password: string; } }) => {
+
     try {
       const user = {
         email: values.email,
@@ -27,7 +32,8 @@ export function SignIn() {
       // console.log(user);
       const result = await signInWithEmailAndPasswordFun(user.email, user.password);
       // console.log(`result is ${JSON.stringify(result)}`);
-      return result;
+      if(result) setCurrentUser(result);
+      // return result;
     } catch (error) {
       if (error instanceof FirebaseError) {
         switch (error.code) {
@@ -58,7 +64,7 @@ export function SignIn() {
         }}
       >
         <EmailInput
-          id="email"
+          id="signInEmail"
           name="email"
           type="email"
           required
@@ -67,7 +73,7 @@ export function SignIn() {
           inputClassName="form-input"
         />
         <PasswordInput
-          id="password"
+          id="signInPassword"
           type="text"
           name="password"
           minLength={8}
