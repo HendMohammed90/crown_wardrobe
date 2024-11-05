@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth , signInWithPopup, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword , signInWithEmailAndPassword } from "firebase/auth";
+import {getAuth , signInWithPopup, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword , signInWithEmailAndPassword , signOut} from "firebase/auth";
 import {doc ,setDoc, getDoc, getFirestore} from "firebase/firestore"
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -45,13 +45,13 @@ export const createUserDocFromAuth = async(userAuth: UserCredential , additional
     const email = userAuth.user.email; 
     const createdAt = new Date();
     try {
-      const setDocResult = await setDoc(userDocRef , {
+      await setDoc(userDocRef , {
         displayName: displayName || null,
         email: email || null,
         createdAt: createdAt,
         ...additionalInformation
       })
-      console.log(`setDocResult is ${JSON.stringify(setDocResult)}`)
+      // console.log(`setDocResult is ${JSON.stringify(setDocResult)}`)
     } catch (error) {
       console.log(`Error of creating a user on Database ${error}`)
     }
@@ -68,9 +68,12 @@ export const createAuthUserWithEmailAndPassword = async (email: string , passwor
 }
 
 // Function to signIn user from email and password
-
 export const signInWithEmailAndPasswordFun = async (email: string , password : string) => {
   if(!email || !password) return;
 
   return await signInWithEmailAndPassword( auth , email , password);
 }
+
+
+// Function to signOut
+export const signOutUser = async () => await signOut(auth); 

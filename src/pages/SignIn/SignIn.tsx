@@ -14,7 +14,7 @@ export function SignIn() {
   const logInWithGoogle = async () => {
     const response = await signInWithGooglePopup();
     const user = await createUserDocFromAuth(response);
-    console.log(`USER is ${JSON.stringify(user)}`)
+    // console.log(`USER is ${JSON.stringify(user)}`)
     return user;
 
   }

@@ -29,7 +29,7 @@ export function SignUp() {
         console.error('Failed to create user');
         return;
       }
-      console.log(`result after sign up ${JSON.stringify(result)}`);
+      // console.log(`result after sign up ${JSON.stringify(result)}`);
       await createUserDocFromAuth(result , user);
       setCurrentUser(result);
     } catch (error) {
