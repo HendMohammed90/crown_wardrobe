@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {getAuth , signInWithPopup, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword , signInWithEmailAndPassword , signOut} from "firebase/auth";
+import {getAuth , signInWithPopup, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword , signInWithEmailAndPassword , signOut , onAuthStateChanged, User} from "firebase/auth";
 import {doc ,setDoc, getDoc, getFirestore} from "firebase/firestore"
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -77,3 +77,8 @@ export const signInWithEmailAndPasswordFun = async (email: string , password : s
 
 // Function to signOut
 export const signOutUser = async () => await signOut(auth); 
+
+// function to Adds an observer for changes to the user's sign-in state.
+export const onAuthStateChangedListener = (callback: (user: User | null) => void) => {
+  onAuthStateChanged(auth, callback);
+}

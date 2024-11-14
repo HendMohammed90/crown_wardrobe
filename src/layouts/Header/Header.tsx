@@ -4,19 +4,15 @@ import { Link } from "@mongez/react-router"
 import crownSvg from "../../assets/crown.svg";
 import { UserContext } from "../../shared/contexts/user.context";
 import { useContext } from "react";
-import { signOut } from "firebase/auth";
+import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 export default function Header() {
 
   const userData = useContext(UserContext);
   // console.log(`userData is ${JSON.stringify(userData)}`)
 
-  const {setCurrentUser} = useContext(UserContext);
-
-  const signOutHandler = async()=> {
-    await signOut;
-    setCurrentUser(null)
-
+  const signOutHandler = ()=> {
+    signOutUser()
   }
   return (
     <>
@@ -34,7 +30,6 @@ export default function Header() {
           ) : ( <Link className="nav-link" to={"/auth"}>
             SIGN IN
           </Link>)}
-         
         </div>
       </div>
     </>

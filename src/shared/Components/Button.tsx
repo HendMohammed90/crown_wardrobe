@@ -14,8 +14,8 @@ import "./button.styles.scss"
     onClick?: React.MouseEventHandler
 }
 
-export default function Button ({children, buttonType, type, className}: ButtonPropsType) {
+export default function Button ({children, buttonType, type, className, onClick}: ButtonPropsType) {
   return (
-    <button type={type} className={`${className} ${BUTTON_TYPE_CLASSES[buttonType]}`}>{children}</button>
+    <button type={type} className={`${className} ${BUTTON_TYPE_CLASSES[buttonType]}`} onClick={onClick}>{children}</button>
   )
 }

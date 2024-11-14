@@ -5,11 +5,8 @@ import { Form, FormSubmitOptions } from "@mongez/react-form";
 import { createAuthUserWithEmailAndPassword, createUserDocFromAuth } from "../../utils/firebase/firebase.utils";
 import "./signUp.scss"
 import Button from "../../shared/Components/Button";
-import { useContext } from "react";
-import { UserContext } from "../../shared/contexts/user.context";
 
 export function SignUp() {
-  const {setCurrentUser} = useContext(UserContext);
 
 
   const submitForm = async ({ values }: { values: { displayName: string ; email: string; password: string; confirmPassword: string } }) => {
@@ -31,7 +28,6 @@ export function SignUp() {
       }
       // console.log(`result after sign up ${JSON.stringify(result)}`);
       await createUserDocFromAuth(result , user);
-      setCurrentUser(result);
     } catch (error) {
       console.error(error);
     }

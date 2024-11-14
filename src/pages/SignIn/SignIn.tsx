@@ -5,21 +5,21 @@ import { Form, FormSubmitOptions } from "@mongez/react-form";
 import "./signIn.scss"
 import Button from "../../shared/Components/Button";
 import { FirebaseError } from "firebase/app";
-import { useContext } from "react";
-import { UserContext } from "../../shared/contexts/user.context";
 
 
 export function SignIn() {
 
+
   const logInWithGoogle = async () => {
-    const response = await signInWithGooglePopup();
-    const user = await createUserDocFromAuth(response);
-    // console.log(`USER is ${JSON.stringify(user)}`)
-    return user;
-
+    console.log('Google Sign In button clicked'); // Added logging
+    try {
+      const response = await signInWithGooglePopup();
+      // console.log(`response is ${JSON.stringify(response)}`);
+      await createUserDocFromAuth(response);
+    } catch (error) {
+      console.error('Error during Google sign in:', error); // Added error handling
+    }
   }
-
-  const {setCurrentUser} = useContext(UserContext);
   
   const submitForm = async ({ values }: { values: { email: string; password: string; } }) => {
 
@@ -30,9 +30,9 @@ export function SignIn() {
       };
   
       // console.log(user);
-      const result = await signInWithEmailAndPasswordFun(user.email, user.password);
+      await signInWithEmailAndPasswordFun(user.email, user.password);
       // console.log(`result is ${JSON.stringify(result)}`);
-      if(result) setCurrentUser(result);
+      // if(result) setCurrentUser(result);
       // return result;
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -57,6 +57,7 @@ export function SignIn() {
     <div className="container">
       <h2>Already have an account</h2>
       <span>Sign In with your email and password </span>
+
       <Form
         onSubmit={(options: FormSubmitOptions) => {
           const values = options.values as { email: string; password: string; };
