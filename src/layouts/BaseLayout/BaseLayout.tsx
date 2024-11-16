@@ -1,4 +1,5 @@
-import { UserProvider } from "../../shared/contexts/user.context" 
+import { ProductsProvider } from "../../shared/contexts/products.context";
+import { UserProvider } from "../../shared/contexts/user.context"
 import Header from "../Header/Header";
 
 type BaseLayoutProps = {
@@ -11,8 +12,10 @@ type BaseLayoutProps = {
 export default function BaseLayout({ children }: BaseLayoutProps) {
     return (
         <UserProvider>
-            <Header />
-            <main>{children}</main>
+            <ProductsProvider>
+                <Header />
+                <main>{children}</main>
+            </ProductsProvider>
         </UserProvider>
     );
 }
