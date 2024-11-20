@@ -5,6 +5,7 @@ import crownSvg from "../../assets/crown.svg";
 import { UserContext } from "../../shared/contexts/user.context";
 import { useContext } from "react";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
+import CartIcon from "../../shared/Components/CartIcon/CartIcon";
 
 export default function Header() {
 
@@ -30,6 +31,7 @@ export default function Header() {
           ) : ( <Link className="nav-link" to={"/auth"}>
             SIGN IN
           </Link>)}
+          <CartIcon/>
         </div>
       </div>
     </>
