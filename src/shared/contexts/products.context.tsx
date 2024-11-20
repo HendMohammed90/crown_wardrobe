@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { createContext , useState } from "react";
 import shopData  from "../../utils/shop-data.json"
+import { ShopProduct } from "@/shared/types/product"
 
-type ShopProduct = { id: number; name: string; imageUrl: string; price: number; };
 
 export const ProductsContext = createContext<{
     shopProducts: ShopProduct[];
