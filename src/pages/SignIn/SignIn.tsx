@@ -1,9 +1,9 @@
-import EmailInput from "../../shared/Components/EmailInput";
+import EmailInput from "../../shared/Components/Email/EmailInput";
 import { signInWithGooglePopup, createUserDocFromAuth, signInWithEmailAndPasswordFun } from "../../utils/firebase/firebase.utils";
-import PasswordInput from "../../shared/Components/PasswordInput";
+import PasswordInput from "../../shared/Components/Password/PasswordInput";
 import { Form, FormSubmitOptions } from "@mongez/react-form";
 import "./signIn.scss"
-import Button from "../../shared/Components/Button";
+import Button from "../../shared/Components/Button/Button";
 import { FirebaseError } from "firebase/app";
 
 
@@ -20,7 +20,7 @@ export function SignIn() {
       console.error('Error during Google sign in:', error); // Added error handling
     }
   }
-  
+
   const submitForm = async ({ values }: { values: { email: string; password: string; } }) => {
 
     try {
@@ -28,7 +28,7 @@ export function SignIn() {
         email: values.email,
         password: values.password,
       };
-  
+
       // console.log(user);
       await signInWithEmailAndPasswordFun(user.email, user.password);
       // console.log(`result is ${JSON.stringify(result)}`);
@@ -40,16 +40,16 @@ export function SignIn() {
           case 'auth/wrong-password':
             alert('incorrect password for email');
             break;
-        case 'auth/user-not-found':
-          alert('no user associated with this email');
-          break;
-        default:
-          console.log(error);
+          case 'auth/user-not-found':
+            alert('no user associated with this email');
+            break;
+          default:
+            console.log(error);
+        }
       }
     }
   }
-}
-  
+
 
 
 
@@ -84,11 +84,11 @@ export function SignIn() {
           inputClassName="form-input"
         />
         <div className="buttons-container">
-        <Button type="submit" buttonType="inverted" className="button-container">Sign In</Button>
-        <Button type="button" buttonType="google" className="button-container" onClick={logInWithGoogle}>Google Sign In</Button>
+          <Button type="submit" buttonType="inverted" className="button-container">Sign In</Button>
+          <Button type="button" buttonType="google" className="button-container" onClick={logInWithGoogle}>Google Sign In</Button>
         </div>
 
       </Form>
-      </div>
+    </div>
   );
 };

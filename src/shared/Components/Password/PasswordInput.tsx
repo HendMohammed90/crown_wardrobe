@@ -1,23 +1,24 @@
 import {
-  emailRule,
   FormControlProps,
   requiredRule,
   useFormControl,
+  matchRule,
 } from "@mongez/react-form";
-import "./input.styles.scss" 
-type EmailInputPropsType = FormControlProps & {
+import "../input.styles.scss" 
+
+
+type PasswordInputPropsType = FormControlProps & {
   labelText?: string;
   placeholder?: string;
   className?: string;
   inputClassName?: string;
 };
 
-export default function EmailInput(props: EmailInputPropsType) {
+export default function PasswordInput(props: PasswordInputPropsType) {
   const { value, changeValue, error, id } = useFormControl({
     ...props,
-    rules: [requiredRule, emailRule],
+    rules: [requiredRule, matchRule],
   });
-
 
   const getErrorMessage = () => {
     if (!error) return null;
@@ -25,8 +26,10 @@ export default function EmailInput(props: EmailInputPropsType) {
     switch (error) {
       case "validation.required":
         return "required";
-      case "validation.emailRule":
-        return "type a correct email syntax";
+      case "validation.minLength":
+        return "min";
+      case "validation.match":
+        return "match Your Password";
       default:
         return "required";
     }
@@ -39,17 +42,20 @@ export default function EmailInput(props: EmailInputPropsType) {
   return (
     <div className={props.className}>
       <input
-        type="email"
+        type="password"
         id={id}
-        value={value || ""}
-        placeholder={props.placeholder ? props.placeholder : ""}
+        value={value}
+        placeholder={props.placeholder}
         onChange={handleInputChange}
         className={props.inputClassName}
       />
       {props.labelText && <label className={`${
-            props.value?.length ? 'shrink' : ''
+            props.value?.length > 0 ? 'shrink' : ''
           } form-input-label`} htmlFor={id}>{props.labelText}</label>}
-      {error && <span style={{ marginTop: '-0.5rem', fontSize: '13px', color: 'rgb(239, 68, 68)' }}>{getErrorMessage()}</span>}
+      {error &&  <span style={{ marginTop: '-0.5rem', fontSize: '13px', color: 'rgb(239, 68, 68)' }}>
+          {getErrorMessage()}
+        </span>
+      }
     </div>
   );
 }

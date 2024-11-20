@@ -3,7 +3,7 @@ import {
   requiredRule,
   useFormControl,
 } from "@mongez/react-form";
-import "./input.styles.scss" 
+import "../input.styles.scss" 
 
 
 type TextInputPropsType = FormControlProps & {

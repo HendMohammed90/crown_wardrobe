@@ -1,22 +1,22 @@
-import TextInput from "../../shared/Components/TextInput";
-import EmailInput from "../../shared/Components/EmailInput";
-import PasswordInput from "../../shared/Components/PasswordInput";
+import TextInput from "../../shared/Components/TextInput/TextInput";
+import EmailInput from "../../shared/Components/Email/EmailInput";
+import PasswordInput from "../../shared/Components/Password/PasswordInput";
 import { Form, FormSubmitOptions } from "@mongez/react-form";
 import { createAuthUserWithEmailAndPassword, createUserDocFromAuth } from "../../utils/firebase/firebase.utils";
 import "./signUp.scss"
-import Button from "../../shared/Components/Button";
+import Button from "../../shared/Components/Button/Button";
 
 export function SignUp() {
 
 
-  const submitForm = async ({ values }: { values: { displayName: string ; email: string; password: string; confirmPassword: string } }) => {
+  const submitForm = async ({ values }: { values: { displayName: string; email: string; password: string; confirmPassword: string } }) => {
     const user = {
       displayName: values.displayName,
       email: values.email,
       password: values.password,
       confirmPassword: values.confirmPassword
     };
-    if(user.password !== user.confirmPassword){
+    if (user.password !== user.confirmPassword) {
       alert('Password don\'t match');
       return;
     }
@@ -27,13 +27,13 @@ export function SignUp() {
         return;
       }
       // console.log(`result after sign up ${JSON.stringify(result)}`);
-      await createUserDocFromAuth(result , user);
+      await createUserDocFromAuth(result, user);
     } catch (error) {
       console.error(error);
     }
   };
 
-  
+
   return (
     <div className="container">
       <h2>Don't have an account</h2>
@@ -43,22 +43,22 @@ export function SignUp() {
         submitForm({ values: values });
         options.form.reset()
       }}>
-        <TextInput         
-        name="displayName"
-        type="text"
-        required 
-        labelText="Display Name"
-        className="group"
-        inputClassName="form-input"/>
-      <EmailInput
-        name="email"
-        type="email"
-        required
-        labelText="Email"
-        className="group"
-        inputClassName="form-input"
-      />
-      <PasswordInput
+        <TextInput
+          name="displayName"
+          type="text"
+          required
+          labelText="Display Name"
+          className="group"
+          inputClassName="form-input" />
+        <EmailInput
+          name="email"
+          type="email"
+          required
+          labelText="Email"
+          className="group"
+          inputClassName="form-input"
+        />
+        <PasswordInput
           id="password"
           type="text"
           name="password"
@@ -79,8 +79,8 @@ export function SignUp() {
           className="group"
           inputClassName="form-input"
         />
-      <Button type="submit" buttonType="inverted" className="button-container">Sign Up</Button>
-      </Form>  
-      </div>
+        <Button type="submit" buttonType="inverted" className="button-container">Sign Up</Button>
+      </Form>
+    </div>
   );
 }
