@@ -3,18 +3,30 @@ import { Link } from "@mongez/react-router"
 // import { ReactComponent as Logo } from "../../assets/crown.svg"
 import crownSvg from "../../assets/crown.svg";
 import { UserContext } from "../../shared/contexts/user.context";
-import { useContext } from "react";
+import { CartContext } from "../../shared/contexts/CartContext";
+import { useContext, useState } from "react";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
-import CartIcon from "../../shared/Components/CartIcon/CartIcon";
+import CartIcon from "../../shared/Components/Cart/CartIcon/CartIcon";
+import CartDropDown from "../../shared/Components/Cart/CartDrobDown/CartDropDown";
+
 
 export default function Header() {
 
   const userData = useContext(UserContext);
   // console.log(`userData is ${JSON.stringify(userData)}`)
 
-  const signOutHandler = ()=> {
+  const { isCartOpen, ShopCartProducts } = useContext(CartContext);
+  const [cartState, setCartState] = useState(isCartOpen)
+  // console.log(`cartState is => ${cartState}`)
+
+  const signOutHandler = () => {
     signOutUser()
   }
+
+  const handelToggleCart = () => {
+    setCartState(prevState => !prevState); // Update to toggle based on previous state
+  }
+
   return (
     <>
       <div className="navigation">
@@ -28,11 +40,12 @@ export default function Header() {
           </Link>
           {userData?.currentUser !== null && userData?.currentUser?.user !== null ? (
             <span className="nav-link" onClick={signOutHandler}> SIGN OUT</span>
-          ) : ( <Link className="nav-link" to={"/auth"}>
+          ) : (<Link className="nav-link" to={"/auth"}>
             SIGN IN
           </Link>)}
-          <CartIcon/>
+          <CartIcon toggleCartView={handelToggleCart} cartState={cartState} />
         </div>
+        {cartState && <CartDropDown cartProduct={ShopCartProducts} />}
       </div>
     </>
   )
