@@ -1,8 +1,8 @@
 import { ShopProduct } from "@/shared/types/product"
 import Button from "../Button/Button"
-import "./product-card.styles.scss"
 import {CartContext} from "../../contexts/CartContext";
 import { useContext } from "react";
+import "./product-card.styles.scss"
 
 type ProductCardProps = {
   product: ShopProduct
