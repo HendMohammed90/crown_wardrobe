@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { ShopProduct } from "../types/product";
 import { CartProduct } from "../types/cart-product";
@@ -27,23 +27,31 @@ export const CartContext = createContext<{
     cartItems: CartProduct[];
     addToCart: (product: ShopProduct) => void;
     removeFromCart : (product: ShopProduct) => void;
+    cartCount : number
 }>({
     isCartOpen: false,
     setIsCartOpen: () => { },
     cartItems: [],
     addToCart: () => { },
     removeFromCart: () => { },
+    cartCount : 0
 });
 
 export const CartProductsProvider = ({ children }: { children: React.ReactNode }) => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [cartItems, setCartItems] = useState<CartProduct[]>([]);
+    const [cartCount , setCartCount] = useState(0);
 
 
+    useEffect(()=>{
+        const newCartCount = cartItems.reduce((previous , cartCount) => previous + cartCount.quantity , 0);
+        setCartCount(newCartCount);
+    }, [cartItems])
 
     // (prevItems) => addCartItem(prevItems, product)
     const addToCart = (product: ShopProduct) => {
         setCartItems(addCartItem(cartItems, product));
+        // setCartCount(cartCount + 1)
         // console.log(`the product added ${JSON.stringify(product)}`)
         // console.log(`cart items now become => ${JSON.stringify(cartItems)}`)
     }
@@ -62,7 +70,7 @@ export const CartProductsProvider = ({ children }: { children: React.ReactNode }
         });
     };
 
-    const value = { isCartOpen, setIsCartOpen, cartItems, addToCart , removeFromCart};
+    const value = { isCartOpen, setIsCartOpen, cartItems, addToCart , removeFromCart , cartCount};
 
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>

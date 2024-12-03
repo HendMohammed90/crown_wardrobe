@@ -15,7 +15,7 @@ export default function Header() {
   const userData = useContext(UserContext);
   // console.log(`userData is ${JSON.stringify(userData)}`)
 
-  const { isCartOpen } = useContext(CartContext);
+  const { isCartOpen , cartCount } = useContext(CartContext);
   const [cartState, setCartState] = useState(isCartOpen)
   // console.log(`cartState is => ${cartState}`)
 
@@ -43,7 +43,7 @@ export default function Header() {
           ) : (<Link className="nav-link" to={"/auth"}>
             SIGN IN
           </Link>)}
-          <CartIcon toggleCartView={handelToggleCart} cartState={cartState} />
+          <CartIcon toggleCartView={handelToggleCart} cartState={cartState} numberOfProduct={cartCount}  />
         </div>
         {cartState && <CartDropDown />}
       </div>
