@@ -13,7 +13,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart} = useContext(CartContext);
 
   const handelAddToCart = ()=>{
-    console.log('Adding to the cart')
+    // TODO: add notification fire here
+    // console.log('Adding to the cart')
     addToCart(product);
   }
 
