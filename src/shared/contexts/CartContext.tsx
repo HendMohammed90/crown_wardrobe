@@ -68,9 +68,6 @@ export const CartProductsProvider = ({ children }: { children: React.ReactNode }
 
     const addToCart = (product: ShopProduct) => {
         setCartItems(addCartItem(cartItems, product));
-        // setCartCount(cartCount + 1)
-        // console.log(`the product added ${JSON.stringify(product)}`)
-        // console.log(`cart items now become => ${JSON.stringify(cartItems)}`)
     }
 
     const removeFromCart = (product: ShopProduct) => {
@@ -89,14 +86,6 @@ export const CartProductsProvider = ({ children }: { children: React.ReactNode }
 
     const clearItemFromCart = (product: ShopProduct) => {
         setCartItems((prevItems) => {
-            // const existingProduct = prevItems.find((item) => item.id === product.id);
-            // if (existingProduct && existingProduct.quantity > 1) {
-            //     return prevItems.map((item) =>
-            //         item.id === product.id
-            //             ? { ...item, quantity: item.quantity - 1 }
-            //             : item
-            //     );
-            // }
             return prevItems.filter((item) => item.id !== product.id);
         });
     }

@@ -1,5 +1,5 @@
 import { CartProductsProvider } from "../../shared/contexts/CartContext";
-import { ProductsProvider } from "../../shared/contexts/products.context";
+import { CategoriesProvider } from "../../shared/contexts/CategoryContext";
 import { UserProvider } from "../../shared/contexts/user.context"
 import Header from "../Header/Header";
 
@@ -13,12 +13,12 @@ type BaseLayoutProps = {
 export default function BaseLayout({ children }: BaseLayoutProps) {
     return (
         <UserProvider>
-            <ProductsProvider>
+            <CategoriesProvider>
                 <CartProductsProvider>
-                <Header />
-                <main>{children}</main>
+                    <Header />
+                    <main>{children}</main>
                 </CartProductsProvider>
-            </ProductsProvider>
+            </CategoriesProvider>
         </UserProvider>
     );
 }
