@@ -1,13 +1,15 @@
-import { category } from "../../../../utils/types";
+import { Link } from "@mongez/react-router";
+import { Item } from "../../../../utils/types";
 
 import "./CategoryItem.scss"
 
 type CategoryItemPropType = {
-    category: category
+    items: Item[],
+    title: string,
+    imageUrl: string
 }
 
-const CategoryItem = ({ category }: CategoryItemPropType) => {
-    const { imageUrl, title } = category;
+const CategoryItem = ({ title, imageUrl }: CategoryItemPropType) => {
     return (
         <div className='category-container'>
             <div
@@ -18,7 +20,9 @@ const CategoryItem = ({ category }: CategoryItemPropType) => {
             />
             <div className='category-body-container'>
                 <h2>{title}</h2>
-                <p>Shop Now</p>
+                <Link className="nav-link" to={`/shop:${encodeURIComponent(title)}`}>
+                    Shop Now
+                </Link>
             </div>
         </div>
     );

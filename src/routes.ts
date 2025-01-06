@@ -17,7 +17,7 @@ router.partOf(BaseLayout, [
         component: HomePage,
     },
     {
-        path: "/shop",
+        path: "/shop:title",
         component: Shop,
     },
     {
