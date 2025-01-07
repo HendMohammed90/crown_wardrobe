@@ -1,37 +1,72 @@
-import React, { useEffect } from "react";
-import { createContext , useState } from "react";
-import {  UserCredential } from "firebase/auth";
-import { createUserDocFromAuth, onAuthStateChangedListener, } from "../../utils/firebase/firebase.utils";
+import React, { useEffect, useReducer } from "react";
+import { createContext } from "react";
+import { User } from "firebase/auth";
+import { 
+  createUserDocFromAuth, 
+  onAuthStateChangedListener,
+} from "../../utils/firebase/firebase.utils";
 
-type CurrentUserType = UserCredential | null;
+type CurrentUserType = User | null;
 
 export const UserContext = createContext<{
     currentUser: CurrentUserType;
     setCurrentUser: (user: CurrentUserType) => void;
 }>({
-    currentUser: null, // Initialize with null
-    setCurrentUser: () => {} // Provide a default function
+    currentUser: null,
+    setCurrentUser: () => {}
 });
 
-
-export const UserProvider = ({children}: {children: React.ReactNode})=>{
-    const [currentUser, setCurrentUser] = useState<CurrentUserType>(null);
-    const value = {currentUser, setCurrentUser};
-
-
-    // signOutUser();
-    useEffect(()=>{
-        const unsubscribe = onAuthStateChangedListener((user) => {
-            if(user){
-                createUserDocFromAuth(currentUser as UserCredential);
-            }
-            // console.log(`currentUser from provider ${JSON.stringify(user)}`)
-            setCurrentUser(user as CurrentUserType);
-        })
-
-        return unsubscribe;
-    } , []);
-
-    return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+export const USER_ACTION_TYPES = {
+    SET_CURRENT_USER: 'SET_CURRENT_USER'
 }
 
+const userReducer = (state: UserState, action: UserAction) => {
+    const { type, payload } = action;
+    switch (type) {
+        case USER_ACTION_TYPES.SET_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: payload
+            }
+        default:
+            throw new Error(`Unhandled type ${type} in userReducer`);
+    }
+}
+
+const INITIAL_STATE = {
+    currentUser: null
+}
+
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+    const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
+
+    const setCurrentUser = (user: User | null) => {
+        dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+    }
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChangedListener(async (user) => {
+            if (user) {
+                await createUserDocFromAuth(user);
+            }
+            setCurrentUser(user);
+        });
+
+        return unsubscribe;
+    }, []);
+
+    return (
+        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+            {children}
+        </UserContext.Provider>
+    );
+}
+
+type UserAction = {
+    type: string;
+    payload: CurrentUserType;
+};
+
+type UserState = {
+    currentUser: CurrentUserType | null;
+};
