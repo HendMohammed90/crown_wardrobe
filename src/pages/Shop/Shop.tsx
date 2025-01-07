@@ -1,4 +1,4 @@
-import CategoryPreview from "../HomePage/components/CategoryPreview/CategoryPreview"
+import CategoryPreview from "./components/CategoriesPreview/CategoriesPreview"
 import { CategoryContext } from "../../shared/contexts/CategoryContext"
 import { useContext } from "react"
 import "./Shop.scss"
@@ -9,8 +9,8 @@ export default function Shop() {
     return (
         <div className="shop-container">
             {shopCategories
-                .map(({ title, items }) => ( 
-                    <CategoryPreview key={title} title={title} products={items}/>
+                .map(({ title, items }) => (
+                    <CategoryPreview key={title} title={title} products={items} />
                     // <Fragment key={title}>
                     //     <h2>{title}</h2>
                     //     <div className='product-container'>

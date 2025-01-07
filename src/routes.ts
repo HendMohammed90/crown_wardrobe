@@ -5,6 +5,7 @@ import router from "@mongez/react-router";
 import Shop from "./pages/Shop";
 import { Authentication } from "./pages/Authentication";
 import Checkout from "./pages/Checkout/Checkout";
+import CategoryPreview from "./pages/Shop/components/CategoryPreview";
 
 
 
@@ -17,10 +18,6 @@ router.partOf(BaseLayout, [
         component: HomePage,
     },
     {
-        path: "/shop:title",
-        component: Shop,
-    },
-    {
         path: "/auth",
         component: Authentication,
     },
@@ -29,3 +26,18 @@ router.partOf(BaseLayout, [
         component: Checkout,
     },
 ])
+
+router.group({
+    path: "/shop",
+    layout: BaseLayout,
+    routes: [
+        {
+            path: "/",
+            component: Shop,
+        },
+        {
+            path: "/:category",
+            component: CategoryPreview,
+        },
+    ]
+})

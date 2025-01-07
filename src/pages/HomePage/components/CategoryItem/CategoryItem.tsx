@@ -20,7 +20,7 @@ const CategoryItem = ({ title, imageUrl }: CategoryItemPropType) => {
             />
             <div className='category-body-container'>
                 <h2>{title}</h2>
-                <Link className="nav-link" to={`/shop:${encodeURIComponent(title)}`}>
+                <Link className="nav-link" to={`/shop/category:${encodeURIComponent(title)}`}>
                     Shop Now
                 </Link>
             </div>

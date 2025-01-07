@@ -22,7 +22,9 @@
   },
   "include": ["src/**/*.ts",
     "src/**/*.tsx" ,
-    "src/pages/HomePage/components/CategoryPreview/CategoryPreview.tsx" // Optional: explicitly include this file
+    "src/pages/Shop/components/CategoriesPreview/CategoriesPreview.tsx",
+    "src/pages/Shop/components/CategoryPreview/CategoryPreview.tsx",
+
 ],
   "exclude": ["node_modules" ,"build"
 ]
