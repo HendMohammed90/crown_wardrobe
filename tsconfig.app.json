@@ -20,7 +20,11 @@
     },
     "composite": true 
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts",
+    "src/**/*.tsx" ,
+    "src/pages/HomePage/components/CategoryPreview/CategoryPreview.tsx" // Optional: explicitly include this file
+],
+  "exclude": ["node_modules" ,"build"
+]
 }
 
