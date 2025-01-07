@@ -70,28 +70,24 @@ export const getCategoriesAndDocuments = async () => {
 };
 
 // create User Document From Auth on the database
-export const createUserDocFromAuth = async (userAuth: UserCredential, additionalInformation = {}) => {
-  const userDocRef = doc(db, 'users', userAuth.user.uid)
-  // console.log(userDocRef);
-
+export const createUserDocFromAuth = async (user: User | UserCredential, additionalInformation = {}) => {
+  const userDocRef = doc(db, 'users', 'uid' in user ? user.uid : user.user.uid);
   const userSnapshot = await getDoc(userDocRef);
 
-
   if (!userSnapshot.exists()) {
-
-    const displayName = userAuth.user.displayName;
-    const email = userAuth.user.email;
+    const displayName = 'displayName' in user ? user.displayName : user.user.displayName;
+    const email = 'email' in user ? user.email : user.user.email;
     const createdAt = new Date();
+    
     try {
       await setDoc(userDocRef, {
         displayName: displayName || null,
         email: email || null,
-        createdAt: createdAt,
+        createdAt,
         ...additionalInformation
-      })
-      // console.log(`setDocResult is ${JSON.stringify(setDocResult)}`)
+      });
     } catch (error) {
-      console.log(`Error of creating a user on Database ${error}`)
+      console.log(`Error creating user in Database: ${error}`);
     }
   }
 
