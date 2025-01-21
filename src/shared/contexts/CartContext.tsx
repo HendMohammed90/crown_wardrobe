@@ -20,15 +20,6 @@ export const addCartItem = (cartItems: CartProduct[], productToAdd: ShopProduct)
     return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
-export const totalCartPrice = (cartItems : CartProduct[]):number =>{
-    const totalPrices = cartItems.map((item) => {return (item.price*item.quantity)})  
-    // console.log(`totalPrices : ${totalPrices}`);
-    const newCartPrice = totalPrices.reduce((previous , newItem) => previous + newItem , 0);
-    // console.log(`newCartPrice : ${newCartPrice}`);
-    return newCartPrice
-
-}
-
 export const CartContext = createContext<{
     isCartOpen: boolean;
     setIsCartOpen: (isOpen: boolean) => void,
@@ -51,13 +42,13 @@ export const CartContext = createContext<{
 
 export const CART_ACTION_TYPES = {
     SET_CART_ITEMS : 'SET_CART_ITEMS',
-    ADD_ITEM_TO_CART : 'ADD_ITEMS_TO_CART',
-    REMOVE_ITEM_FROM_CART : 'REMOVE_ITEM_FROM_CART',
-    CLEAR_ITEM_FROM_CART : 'CLEAR_ITEM_FROM_CART',
-    UPDATE_CART_COUNT: 'UPDATE_CART_COUNT',
-    UPDATE_CART_TOTAL_PRICE: 'UPDATE_CART_TOTAL_PRICE',
-    OPEN_CART : 'OPEN_CART',
-    CLOSE_CART : 'CLOSE_CART',
+    // ADD_ITEM_TO_CART : 'ADD_ITEMS_TO_CART',
+    // REMOVE_ITEM_FROM_CART : 'REMOVE_ITEM_FROM_CART',
+    // CLEAR_ITEM_FROM_CART : 'CLEAR_ITEM_FROM_CART',
+    // UPDATE_CART_COUNT: 'UPDATE_CART_COUNT',
+    // UPDATE_CART_TOTAL_PRICE: 'UPDATE_CART_TOTAL_PRICE',
+    // OPEN_CART : 'OPEN_CART',
+    // CLOSE_CART : 'CLOSE_CART',
 }
 
 export const cartReducers = (state : CartState ,action: { type: string; payload?: CartActionPayload }) =>{
@@ -82,11 +73,6 @@ const INITIAL_STATE = {
 }
 
 export const CartProductsProvider = ({ children }: { children: React.ReactNode }) => {
-    // const [isCartOpen, setIsCartOpen] = useState(false);
-    // const [cartItems, setCartItems] = useState<CartProduct[]>([]);
-    // const [cartCount , setCartCount] = useState(0);
-    // const [cartTotalPrice , setCartTotalPrice] = useState(0);
-
     const [{cartItems , cartCount , cartTotalPrice , isCartOpen}, dispatch] = useReducer(cartReducers, INITIAL_STATE);
     
     const updateCartItemsReducer = (newCartItem: CartProduct[]) => {
@@ -142,3 +128,38 @@ type CartActionPayload =
     | { cartItems: CartProduct[]; cartCount: number; cartTotalPrice: number } // for SET_CART_ITEMS
     | { cartCount: number } // for UPDATE_CART_COUNT
     | { cartTotalPrice: number }; // for UPDATE_CART_TOTAL_PRICE
+
+    // export const cartReducers = (state: CartState, action: { type: string; payload?: CartActionPayload }) => {
+    //     const { type, payload } = action;
+    
+    //     switch (type) {
+    //         case CART_ACTION_TYPES.SET_CART_ITEMS:
+    //             return {
+    //                 ...state,
+    //                 ...payload
+    //             };
+    //         case CART_ACTION_TYPES.ADD_ITEM_TO_CART:
+    //             return {
+    //                 ...state,
+    //                 cartItems: [...state.cartItems, payload.cartItems[0]], // Assuming payload contains the new item
+    //                 cartCount: state.cartCount + 1,
+    //                 cartTotalPrice: state.cartTotalPrice + payload.cartTotalPrice
+    //             };
+    //         case CART_ACTION_TYPES.REMOVE_ITEM_FROM_CART:
+    //             return {
+    //                 ...state,
+    //                 cartItems: state.cartItems.filter(item => item.id !== payload.cartItems[0].id), // Assuming payload contains the item to remove
+    //                 cartCount: state.cartCount - 1,
+    //                 cartTotalPrice: state.cartTotalPrice - payload.cartTotalPrice
+    //             };
+    //         case CART_ACTION_TYPES.CLEAR_ITEM_FROM_CART:
+    //             return {
+    //                 ...state,
+    //                 cartItems: state.cartItems.filter(item => item.id !== payload.cartItems[0].id), // Assuming payload contains the item to clear
+    //                 cartCount: state.cartCount - payload.cartCount,
+    //                 cartTotalPrice: state.cartTotalPrice - payload.cartTotalPrice
+    //             };
+    //         default:
+    //             throw new Error(`Unhandled type ${type} in cartReducers`);
+    //     }
+    // }
