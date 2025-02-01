@@ -69,7 +69,7 @@ const INITIAL_STATE = {
     cartItems: [],
     cartCount : 0,
     cartTotalPrice: 0,
-    isCartOpen: true,
+    isCartOpen: false,
 }
 
 export const CartProductsProvider = ({ children }: { children: React.ReactNode }) => {
