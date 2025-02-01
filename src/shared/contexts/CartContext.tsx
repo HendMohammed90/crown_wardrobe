@@ -47,7 +47,7 @@ export const CART_ACTION_TYPES = {
     // CLEAR_ITEM_FROM_CART : 'CLEAR_ITEM_FROM_CART',
     // UPDATE_CART_COUNT: 'UPDATE_CART_COUNT',
     // UPDATE_CART_TOTAL_PRICE: 'UPDATE_CART_TOTAL_PRICE',
-    // OPEN_CART : 'OPEN_CART',
+    SET_IS_OPEN_CART : 'SET_IS_OPEN_CART',
     // CLOSE_CART : 'CLOSE_CART',
 }
 
@@ -56,6 +56,11 @@ export const cartReducers = (state : CartState ,action: { type: string; payload?
 
     switch (type) {
         case CART_ACTION_TYPES.SET_CART_ITEMS:
+            return{
+                ...state,
+                ...payload
+            }
+        case CART_ACTION_TYPES.SET_IS_OPEN_CART:
             return{
                 ...state,
                 ...payload
@@ -110,8 +115,11 @@ export const CartProductsProvider = ({ children }: { children: React.ReactNode }
         updateCartItemsReducer(newCartItem(cartItems));
 
     }
+    const setIsCartOpen = (bool:boolean) => {
+        dispatch({type: CART_ACTION_TYPES.SET_IS_OPEN_CART , payload :{ isCartOpen: bool }  })
+    }
 
-    const value = { isCartOpen, setIsCartOpen : ()=>{}, cartItems, addToCart , removeFromCart , clearItemFromCart ,cartCount , cartTotalPrice};
+    const value = { isCartOpen, setIsCartOpen : setIsCartOpen, cartItems, addToCart , removeFromCart , clearItemFromCart ,cartCount , cartTotalPrice};
 
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>
@@ -127,7 +135,8 @@ interface CartState {
 type CartActionPayload = 
     | { cartItems: CartProduct[]; cartCount: number; cartTotalPrice: number } // for SET_CART_ITEMS
     | { cartCount: number } // for UPDATE_CART_COUNT
-    | { cartTotalPrice: number }; // for UPDATE_CART_TOTAL_PRICE
+    | { cartTotalPrice: number } // for UPDATE_CART_TOTAL_PRICE
+    | {isCartOpen: boolean} // for UPDATE_SET_IS_OPEN_CART
 
     // export const cartReducers = (state: CartState, action: { type: string; payload?: CartActionPayload }) => {
     //     const { type, payload } = action;
