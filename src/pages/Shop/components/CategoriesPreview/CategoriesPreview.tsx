@@ -12,7 +12,7 @@ export default function CategoriesPreview({ title, products }: CategoryPreviewPr
     return (
         <div className='category-preview-container'>
             <Link className="nav-link" to={`/shop/category:${encodeURIComponent(title)}`}>
-                <span className='title'>{title.toUpperCase()}</span>
+                <span className='title'>{`{${title.toUpperCase()}}`}</span>
             </Link>
             <div className='preview'>
                 {products

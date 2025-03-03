@@ -2,14 +2,20 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 30px;
+  .nav-link{
+    align-self: center;
+  }
 
   .title {
+    text-decoration: underline;
+    font-weight: bolder;
     font-size: 28px;
-    margin-bottom: 25px;
     cursor: pointer;
+    text-align: center;
   }
 
   .preview {
+    margin-top: 2%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     // column-gap: 20px;
