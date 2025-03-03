@@ -67,12 +67,3 @@ Crown Wardrobe is a React-based e-commerce application featuring a fully functio
 ## 🤝 Contributing
 
 Feel free to submit issues and pull requests to help improve the app.
-
-## ⚖️ License
-
-This project is private and not open for distribution.
-
-## 📧 Contact
-
-For questions or support, please reach out to [Your Email].
-```
