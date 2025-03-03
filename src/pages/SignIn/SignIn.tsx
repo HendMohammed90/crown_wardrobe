@@ -16,6 +16,8 @@ export function SignIn() {
       const response = await signInWithGooglePopup();
       // console.log(`response is ${JSON.stringify(response)}`);
       await createUserDocFromAuth(response);
+      // redirect here to the home page shop
+      window.location.href = '/shop';
     } catch (error) {
       console.error('Error during Google sign in:', error); // Added error handling
     }
@@ -30,7 +32,9 @@ export function SignIn() {
       };
 
       // console.log(user);
-      await signInWithEmailAndPasswordFun(user.email, user.password);
+      await signInWithEmailAndPasswordFun(user.email, user.password).then(()=>{
+        window.location.href = '/shop';
+      })
       // console.log(`result is ${JSON.stringify(result)}`);
       // if(result) setCurrentUser(result);
       // return result;
