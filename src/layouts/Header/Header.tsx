@@ -17,7 +17,7 @@ export default function Header() {
 
   const { isCartOpen , cartCount } = useContext(CartContext);
   const [cartState, setCartState] = useState(isCartOpen)
-  // console.log(`cartState is => ${cartState}`)
+  // console.log(`currentUser is => ${JSON.stringify(userData)}`)
 
   const signOutHandler = () => {
     signOutUser()
@@ -38,8 +38,11 @@ export default function Header() {
           <Link className="nav-link" to={"/shop"}>
             SHOP
           </Link>
-          {userData?.currentUser !== null && userData?.currentUser?.user !== null ? (
+          {userData?.currentUser !== null && userData?.currentUser?.displayName !== null ? (
+            <>
+            <h4>Welcome {userData?.currentUser?.displayName}</h4>
             <span className="nav-link" onClick={signOutHandler}> SIGN OUT</span>
+            </>
           ) : (<Link className="nav-link" to={"/auth"}>
             SIGN IN
           </Link>)}
