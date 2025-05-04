@@ -4,6 +4,7 @@ import { CategoryContext } from "../../shared/contexts/CategoryContext"
 import { useContext } from "react"
 
 const HomePage = () => {
+
     // const categories: category[] = [
     //     {
     //         id: 1,
