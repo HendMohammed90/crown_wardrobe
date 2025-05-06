@@ -1,6 +1,18 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, User } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  GoogleAuthProvider,
+  UserCredential,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  User
+} from "firebase/auth";
 import {
   doc, setDoc, getDoc, getFirestore, collection,
   writeBatch, query, getDocs,
@@ -29,7 +41,22 @@ provider.setCustomParameters({
 
 export const auth = getAuth();
 
+// Popup-based Google Sign-in (may cause COOP issues)
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+// Redirect-based Google Sign-in (recommended for better compatibility)
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider);
+
+// Get the result of the redirect sign-in
+export const getGoogleRedirectResult = async () => {
+  try {
+    const result = await getRedirectResult(auth);
+    return result;
+  } catch (error) {
+    console.error("Error getting redirect result:", error);
+    return null;
+  }
+};
 
 
 // Initialize Firestore(database)
@@ -78,7 +105,7 @@ export const createUserDocFromAuth = async (user: User | UserCredential, additio
     const displayName = 'displayName' in user ? user.displayName : user.user.displayName;
     const email = 'email' in user ? user.email : user.user.email;
     const createdAt = new Date();
-    
+
     try {
       await setDoc(userDocRef, {
         displayName: displayName || null,

@@ -1,98 +1,140 @@
-import EmailInput from "../../shared/Components/Email/EmailInput";
-import { signInWithGooglePopup, createUserDocFromAuth, signInWithEmailAndPasswordFun } from "../../utils/firebase/firebase.utils";
-import PasswordInput from "../../shared/Components/Password/PasswordInput";
-import { Form, FormSubmitOptions } from "@mongez/react-form";
+import {
+  signInWithGoogleRedirect,
+  getGoogleRedirectResult,
+  createUserDocFromAuth,
+  signInWithEmailAndPasswordFun
+} from "../../utils/firebase/firebase.utils";
 import "./signIn.scss"
 import Button from "../../shared/Components/Button/Button";
 import { FirebaseError } from "firebase/app";
+import { useNavigate } from "react-router-dom";
+import { FormEvent, useState, useEffect } from "react";
+import EmailInput from "../../shared/Components/FormInput/EmailInput";
+import PasswordInput from "../../shared/Components/FormInput/PasswordInput";
+import { validateEmail, validatePassword } from "../../shared/utils/formValidation";
 
 
 export function SignIn() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [errors, setErrors] = useState({
+    email: '',
+    password: ''
+  });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
 
-  const logInWithGoogle = async () => {
-    console.log('Google Sign In button clicked'); // Added logging
-    try {
-      const response = await signInWithGooglePopup();
-      // console.log(`response is ${JSON.stringify(response)}`);
-      await createUserDocFromAuth(response);
-      // redirect here to the home page shop
-      window.location.href = '/shop';
-    } catch (error) {
-      console.error('Error during Google sign in:', error); // Added error handling
+    // Clear error when user types
+    if (errors[name as keyof typeof errors]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
     }
-  }
+  };
 
-  const submitForm = async ({ values }: { values: { email: string; password: string; } }) => {
+  const validateForm = () => {
+    const newErrors = {
+      email: validateEmail(formData.email) || '',
+      password: validatePassword(formData.password) || ''
+    };
+
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password;
+  };
+
+  // Check for redirect result when component mounts
+  useEffect(() => {
+    const checkRedirectResult = async () => {
+      const response = await getGoogleRedirectResult();
+      if (response) {
+        await createUserDocFromAuth(response);
+        navigate('/shop');
+      }
+    };
+
+    checkRedirectResult();
+  }, [navigate]);
+
+  const logInWithGoogle = () => {
+    console.log('Google Sign In button clicked'); // Added logging
+    signInWithGoogleRedirect();
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     try {
-      const user = {
-        email: values.email,
-        password: values.password,
-      };
-
-      // console.log(user);
-      await signInWithEmailAndPasswordFun(user.email, user.password).then(()=>{
-        window.location.href = '/shop';
-      })
-      // console.log(`result is ${JSON.stringify(result)}`);
-      // if(result) setCurrentUser(result);
-      // return result;
+      await signInWithEmailAndPasswordFun(formData.email, formData.password);
+      navigate('/shop');
     } catch (error) {
       if (error instanceof FirebaseError) {
         switch (error.code) {
           case 'auth/wrong-password':
-            alert('incorrect password for email');
+            setErrors({
+              ...errors,
+              password: 'Incorrect password for email'
+            });
             break;
           case 'auth/user-not-found':
-            alert('no user associated with this email');
+            setErrors({
+              ...errors,
+              email: 'No user associated with this email'
+            });
             break;
           default:
             console.log(error);
         }
       }
     }
-  }
-
-
-
+  };
 
   return (
     <div className="container">
       <h2>Already have an account</h2>
       <span>Sign In with your email and password </span>
 
-      <Form
-        onSubmit={(options: FormSubmitOptions) => {
-          const values = options.values as { email: string; password: string; };
-          submitForm({ values: values });
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <EmailInput
           id="signInEmail"
           name="email"
-          type="email"
+          value={formData.email}
+          onChange={handleChange}
           required
           labelText="Email"
           className="group"
           inputClassName="form-input"
+          error={errors.email}
         />
         <PasswordInput
           id="signInPassword"
-          type="text"
           name="password"
+          value={formData.password}
+          onChange={handleChange}
           minLength={8}
           required
           labelText="Password"
           className="group"
           inputClassName="form-input"
+          error={errors.password}
         />
         <div className="buttons-container">
           <Button type="submit" buttonType="inverted" className="button-container">Sign In</Button>
           <Button type="button" buttonType="google" className="button-container" onClick={logInWithGoogle}>Google Sign In</Button>
         </div>
-
-      </Form>
+      </form>
     </div>
   );
 };

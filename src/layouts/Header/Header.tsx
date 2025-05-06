@@ -1,6 +1,5 @@
 import "./Header.scss"
-import { Link } from "@mongez/react-router"
-// import { ReactComponent as Logo } from "../../assets/crown.svg"
+import { Link } from "react-router-dom"
 import crownSvg from "../../assets/crown.svg";
 import { UserContext } from "../../shared/contexts/user.context";
 import { CartContext } from "../../shared/contexts/CartContext";
@@ -15,7 +14,7 @@ export default function Header() {
   const userData = useContext(UserContext);
   // console.log(`userData is ${JSON.stringify(userData)}`)
 
-  const { isCartOpen , cartCount } = useContext(CartContext);
+  const { isCartOpen, cartCount } = useContext(CartContext);
   const [cartState, setCartState] = useState(isCartOpen)
   // console.log(`currentUser is => ${JSON.stringify(userData)}`)
 
@@ -40,13 +39,13 @@ export default function Header() {
           </Link>
           {userData?.currentUser !== null && userData?.currentUser?.displayName !== null ? (
             <>
-            <h4>Welcome {userData?.currentUser?.displayName}</h4>
-            <span className="nav-link" onClick={signOutHandler}> SIGN OUT</span>
+              <h4>Welcome {userData?.currentUser?.displayName}</h4>
+              <span className="nav-link" onClick={signOutHandler}> SIGN OUT</span>
             </>
           ) : (<Link className="nav-link" to={"/auth"}>
             SIGN IN
           </Link>)}
-          <CartIcon toggleCartView={handelToggleCart} cartState={cartState} numberOfProduct={cartCount}  />
+          <CartIcon toggleCartView={handelToggleCart} cartState={cartState} numberOfProduct={cartCount} />
         </div>
         {cartState && <CartDropDown />}
       </div>

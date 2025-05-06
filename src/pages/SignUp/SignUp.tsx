@@ -1,86 +1,143 @@
-import TextInput from "../../shared/Components/TextInput/TextInput";
-import EmailInput from "../../shared/Components/Email/EmailInput";
-import PasswordInput from "../../shared/Components/Password/PasswordInput";
-import { Form, FormSubmitOptions } from "@mongez/react-form";
 import { createAuthUserWithEmailAndPassword, createUserDocFromAuth } from "../../utils/firebase/firebase.utils";
 import "./signUp.scss"
 import Button from "../../shared/Components/Button/Button";
+import { useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
+import TextInput from "../../shared/Components/FormInput/TextInput";
+import EmailInput from "../../shared/Components/FormInput/EmailInput";
+import PasswordInput from "../../shared/Components/FormInput/PasswordInput";
+import { validateEmail, validatePassword, validateRequired, validatePasswordMatch } from "../../shared/utils/formValidation";
 
 export function SignUp() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    displayName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [errors, setErrors] = useState({
+    displayName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
 
-  const submitForm = async ({ values }: { values: { displayName: string; email: string; password: string; confirmPassword: string } }) => {
-    const user = {
-      displayName: values.displayName,
-      email: values.email,
-      password: values.password,
-      confirmPassword: values.confirmPassword
+    // Clear error when user types
+    if (errors[name as keyof typeof errors]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      displayName: validateRequired(formData.displayName, 'Display Name') || '',
+      email: validateEmail(formData.email) || '',
+      password: validatePassword(formData.password) || '',
+      confirmPassword: validatePasswordMatch(formData.password, formData.confirmPassword) || ''
     };
-    if (user.password !== user.confirmPassword) {
-      alert('Password don\'t match');
+
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(error => error);
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
       return;
     }
+
     try {
-      const result = await createAuthUserWithEmailAndPassword(user.email, user.password);
+      const result = await createAuthUserWithEmailAndPassword(formData.email, formData.password);
       if (!result) {
         console.error('Failed to create user');
         return;
       }
-      // console.log(`result after sign up ${JSON.stringify(result)}`);
+
+      const user = {
+        displayName: formData.displayName,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword
+      };
+
       await createUserDocFromAuth(result, user);
+      navigate('/shop');
     } catch (error) {
       console.error(error);
+      if (error instanceof Error) {
+        if (error.message.includes('email-already-in-use')) {
+          setErrors({
+            ...errors,
+            email: 'Email already in use'
+          });
+        }
+      }
     }
   };
-
 
   return (
     <div className="container">
       <h2>Don't have an account</h2>
       <span>Sign Up with your email and password </span>
-      <Form onSubmit={(options: FormSubmitOptions) => {
-        const values = options.values as { displayName: string; email: string; password: string; confirmPassword: string; };
-        submitForm({ values: values });
-        options.form.reset()
-      }}>
+      <form onSubmit={handleSubmit}>
         <TextInput
           name="displayName"
-          type="text"
+          value={formData.displayName}
+          onChange={handleChange}
           required
           labelText="Display Name"
           className="group"
-          inputClassName="form-input" />
+          inputClassName="form-input"
+          error={errors.displayName}
+        />
         <EmailInput
           name="email"
-          type="email"
+          value={formData.email}
+          onChange={handleChange}
           required
           labelText="Email"
           className="group"
           inputClassName="form-input"
+          error={errors.email}
         />
         <PasswordInput
           id="password"
-          type="text"
           name="password"
+          value={formData.password}
+          onChange={handleChange}
           minLength={8}
           required
           labelText="Password"
           className="group"
           inputClassName="form-input"
+          error={errors.password}
         />
         <PasswordInput
           id="confirmPassword"
-          type="text"
           name="confirmPassword"
-          match="password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
           minLength={8}
           required
-          labelText="confirm Password"
+          labelText="Confirm Password"
           className="group"
           inputClassName="form-input"
+          error={errors.confirmPassword}
         />
         <Button type="submit" buttonType="inverted" className="button-container">Sign Up</Button>
-      </Form>
+      </form>
     </div>
   );
 }

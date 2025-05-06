@@ -3,7 +3,7 @@ import Button from "../../Button/Button"
 import { CartContext } from "../../../contexts/CartContext"
 import "./cart-dropdown.styles.scss"
 import CartItem from "../CartItem/CartItem"
-import { Link } from "@mongez/react-router"
+import { Link } from "react-router-dom"
 
 
 const CartDropDown = () => {

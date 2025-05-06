@@ -2,16 +2,11 @@ import { Item } from '@/utils/types';
 import ProductCard from "../../../../shared/Components/ProductCard/ProductCard"
 import { useContext, useState, useEffect } from 'react';
 import { CategoryContext } from '../../../../shared/contexts/CategoryContext';
+import { useParams } from 'react-router-dom';
 
-interface CategoryPreviewProps {
-    params: {
-        category: string;
-    };
-}
-
-export default function CategoryPreview({ params }: CategoryPreviewProps) {
-
-    const urlTitle = params.category.split(':')[1]; // Get the part after 'category:'
+export default function CategoryPreview() {
+    const { category } = useParams<{ category: string }>();
+    const urlTitle = category;
     const [title, setTitle] = useState("");
     const [products, setProducts] = useState<Item[]>([]);
     const { shopCategories } = useContext(CategoryContext);
@@ -19,7 +14,7 @@ export default function CategoryPreview({ params }: CategoryPreviewProps) {
 
     useEffect(() => {
         setTitle(urlTitle);
-        const filteredProducts = shopCategories.find(category => category.title === urlTitle)?.items || [];        
+        const filteredProducts = shopCategories.find(category => category.title === urlTitle)?.items || [];
         // console.log(`filteredProducts ${JSON.stringify(filteredProducts)}`);
         setProducts(filteredProducts);
     }, [urlTitle, shopCategories]);
@@ -32,7 +27,7 @@ export default function CategoryPreview({ params }: CategoryPreviewProps) {
                     .map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
-            </div>        
+            </div>
         </div>
     );
 };

@@ -12,9 +12,9 @@ Crown Wardrobe is a React-based e-commerce application featuring a fully functio
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18.3.1
-- **Routing**: `@mongez/react-router`, `@mongez/router`
-- **Forms**: `@mongez/react-form`
-- **Firebase**: For authentication and real-time database
+- **Routing**: `react-router-dom`
+- **Forms**: React controlled forms with custom validation
+- **Firebase**: For authentication (using redirect-based auth) and real-time database
 - **Styling**: Sass (1.79.4)
 - **Icons**: `react-icons`
 - **Build Tool**: Vite
